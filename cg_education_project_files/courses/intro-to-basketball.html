@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Course : Intro to Basketball | Annie's CG Education</title>
+        <meta name="description" content="Courses | Annie's CG Education">
+        <meta name="author" content="Annie McCance">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="../css/styles.css">
+
+        <!--[if lt IE 9]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body class="cg_education">
+        <div class="cg_education__wrapper">
+            <header class="cg_education__header">
+                <h1 class="cg_title">
+                    <a href="../index.html">CoderGirl
+                        <br/>Education</a>
+                </h1>
+                <nav class="cg_nav">
+                    <a href="../teachers.html">Teachers</a>
+                    <a href="../students.html">Students</a>
+                    <a href="../courses.html" class="active">Courses</a>
+                </nav>
+            </header>
+            <div class="spinner"></div>
+            <main class="cg_education__content course_content">
+                <div class="course_form">
+                    <form id="form_course_roster" action="#" method="post">
+                        <fieldset>
+                            <select name="select_student" id="select_student">
+                                <option value="">Select Student</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <input class="submit_button" type="submit" value="Add Student">
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="course_info">
+                    <h1 class="name">Course Name</h1>
+                    <h2 class="department">Course Department</h2>
+                    <h3 class="semester">Course Semester</h3>
+                    <div class="info_box">
+                        <label>Teacher</label>
+                        <h3 class="teacher_name">Teacher Name</h3>
+                    </div>
+                    <div class="info_box">
+                        <label>Students</label>
+                        <div class="student_list"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

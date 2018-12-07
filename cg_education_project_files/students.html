@@ -1,0 +1,89 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Students | Annie's CG Education</title>
+        <meta name="description" content="Students | Annie's CG Education">
+        <meta name="author" content="Annie McCance">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+
+        <!--[if lt IE 9]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body class="cg_education">
+        <div class="cg_education__wrapper">
+            <header class="cg_education__header">
+                <h1 class="cg_title"><a href="index.html">CoderGirl <br/>Education</a></h1>
+                <nav class="cg_nav">
+                    <a href="teachers.html">Teachers</a>
+                    <a href="students.html" class="active">Students</a>
+                    <a href="courses.html">Courses</a>
+                </nav>
+            </header>
+            <!--
+                BONUS: Try using JavaScript to show and hide the spinner by applying .fadein and .fadeout classes to the right elements, at the right time.
+                <div class="spinner"></div>
+            -->
+            <main class="cg_education__content student_content fadein">
+                <div class="student_form">
+                    <form id="form_student_create" action="#" method="post">
+                        <fieldset>
+                            <label for="student_name">Name</label>
+                            <input id="student_name" type="text" placeholder="Name">
+                        </fieldset>
+                        <fieldset>
+                            <label for="student_major">Major</label>
+                            <select name="student_major" id="student_major">
+                                <option value="">Select Major</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <label for="student_email">Email</label>
+                            <input id="student_email" type="text" placeholder="Email">
+                        </fieldset>
+                        <fieldset>
+                            <label for="student_gpa">GPA</label>
+                            <input id="student_gpa" type="text" placeholder="GPA">
+                        </fieldset>
+                        <fieldset>
+                            <input class="submit_button" type="submit" value="Create Student">
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="student_list">
+                    <article class="student">
+                        <header class="student__header">
+                            <img class="student__thumbnail thumbnail" src="img/profile_thumb.png" alt="Student Name" />
+                            <h2 class="student__name">Student Name</h2>
+                            <h3 class="student__major">Student Major</h3>
+                        </header>
+                        <aside class="student__detail">
+                            <div class="student__detail_row detail_row">
+                                <h4 class="student__email_title">Email:</h4>
+                                <p class="student__email"><a href="mailto:student@email.domain">Student Email</a></p>
+                            </div>
+                            <div class="student__detail_row detail_row">
+                                <h4 class="student__gpa_title">GPA:</h4>
+                                <p class="student__gpa">Student GPA</p>
+                            </div>
+                            <div class="student__detail_row detail_row">
+                                <h4 class="student__courses_title">Courses:</h4>
+                                <ul class="student__courses_list course_list">
+                                    <li>Course Name</li>
+                                    <li>Course Name</li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </article>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
