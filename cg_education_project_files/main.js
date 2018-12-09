@@ -1,7 +1,15 @@
 let teacherName = "Mr. Talks-a-lot";
-let department = "Communication";
-let rating = [2.1, 3.7, 4.3];
-let ratingOutput = rating.join(", ");
+let teacherDepartment = "Communication";
 
-console.log(`Teacher: ${teacherName}\nDepartment: ${department}\nRating: ${ratingOutput}`);
+
+let teacherRatings = [2.1, 3.7, 4.3];
+
+let totalRating = teacherRatings.reduce((carryOver, indexValue) => {
+    return carryOver + indexValue;
+});
+
+let teacherAvgRating = (totalRating / teacherRatings.length).toFixed(5);
+
+let teacherRatingOutput = teacherRatings.join(", ");
+console.log(`Teacher: ${teacherName}\nDepartment: ${teacherDepartment}\nRating: ${teacherRatingOutput}\nAverage Rating: ${teacherAvgRating}`);
 
