@@ -1,17 +1,44 @@
+//teacher info variables
 let teacherName = "Thomas Talks-a-lot";
 let teacherDepartment = "Communication";
-
-
 let teacherRatings = [2.1, 3.7, 4.3];
 
-let totalRating = teacherRatings.reduce((carryOver, indexValue) => {
+//function to add value to an array
+let addTeacherRating = (array, value) => {
+    array.push(value);
+    return array;
+}
+
+let newRating;
+let newTeacherRatings;
+
+//prompts student to rate teacher, checks whether student entered a valid rating, and adds student's input rating to existing array
+while (true) {
+    newRating = parseFloat(window.prompt("Please rate your teacher with a value between 0.0 and 5.0."));
+    if ((newRating >= 0) && (newRating <= 5)) {        
+        newTeacherRatings = addTeacherRating(teacherRatings, newRating);
+        break;
+    } else {
+        alert("You didn't follow directions. Shame on you. Please rate your teacher with a value between 0.0 and 5.0.");
+    }
+}
+
+//totals ratings in array
+let totalRating = newTeacherRatings.reduce((carryOver, indexValue) => {
     return carryOver + indexValue;
 });
 
-let teacherAvgRating = (totalRating / teacherRatings.length).toFixed(5);
+//averages teacher's ratings
+let teacherAvgRating = (totalRating / newTeacherRatings.length).toFixed(5);
 
-let teacherRatingOutput = teacherRatings.join(", ");
-console.log(`Teacher: ${teacherName}\nDepartment: ${teacherDepartment}\nRating: ${teacherRatingOutput}\nAverage Rating: ${teacherAvgRating}`);
+//gives array with spaces between ratings
+let teacherRatingOutput = newTeacherRatings.join(", ");
+
+//alerts student to new rating average
+alert(`Thanks for your review! ${teacherName}'s average rating is now ${teacherAvgRating}.`)
+
+//logs teacher info to console
+console.log(`Teacher: ${teacherName}\nDepartment: ${teacherDepartment}\nRatings: ${teacherRatingOutput}\nAverage Rating: ${teacherAvgRating}`);
 
 
 let studentName = "Ida Dream";
