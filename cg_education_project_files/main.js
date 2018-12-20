@@ -1,4 +1,4 @@
-//teacher info variables
+/* //teacher info variables
 const teacherName = "Thomas Talks-a-lot";
 const teacherDepartment = "Communication";
 let teacherRatings = [2.1, 3.7, 4.3];
@@ -91,4 +91,84 @@ while (true) {
 alert(`The following courses are available in the ${filterInput} department: ${departmentCourses.join(", ")}`);
 
 //logs course info to console
-console.log(`Course: ${courseName}\nDepartment: ${courseDepartment}\nInstructor: ${courseTeacher}\nSemester: ${courseSemester}`);
+console.log(`Course: ${courseName}\nDepartment: ${courseDepartment}\nInstructor: ${courseTeacher}\nSemester: ${courseSemester}`); */
+
+
+
+let collegeGradYear;
+let collegeGradMonth = "";
+
+while (true) {
+    collegeGradYear = parseFloat(window.prompt("Please enter your college graduation year, between 2018 and 2026."));
+    if ((collegeGradYear >= 2018) && (collegeGradYear <= 2026)) {
+        while (true) {
+            collegeGradMonth = window.prompt("Please enter your college graduation month. Only May or December are considered valid.");
+            if ((collegeGradMonth === "May") || (collegeGradMonth === "December")) {
+                break;
+            } else {
+                alert("Uh oh. Did you read the instructions? Please enter either May or December as the month of your graduation.");
+            }
+        }
+        break;
+    } else {
+        alert("Uh oh. The year you entered isn't valid. Please enter a college graduation year between 2018 and 2026.");
+    }
+}
+
+const welcomeCollegeStudent = (studentClass) => {
+    console.log(`Welcome ${studentClass}!`);
+}
+
+const welcomeHsStudent = (studentClass) => {
+    console.log(`You're still a ${studentClass} in high school!`);
+}
+
+const lifeStatus = (year, month) => {
+    if ((year >= 2019) && (year <= 2021)) {
+        return "college";
+    } else if ((year >= 2023) && (year <= 2026)) {
+        return "high school";
+    } else if ((year == 2022) && (month === "May")) {
+        return "college";
+    } else if ((year == 2022) && (month === "December")) {
+        return "high school";
+    }
+}
+
+const studentClassDictionary = [
+    [2018, "December", "senior"],
+    [2019, "May", "senior"],
+    [2019, "December", "junior"],
+    [2020, "May", "junior"],
+    [2020, "December", "sophomore"],
+    [2021, "May", "sophomore"],
+    [2021, "December", "freshman"],
+    [2022, "May", "freshman"],
+    [2022, "December", "senior"],
+    [2023, "May", "senior"],
+    [2023, "December", "junior"],
+    [2024, "May", "junior"],
+    [2024, "December", "sophomore"],
+    [2025, "May", "sophomore"],
+    [2025, "December", "freshman"],
+    [2026, "May", "freshman"]
+];
+
+let currentStudentClass = "";
+function findStudentClass(year, month) {
+    for (let i = 0; i < studentClassDictionary.length; i++) {
+        const j = studentClassDictionary[i];
+        if ((year === j[0]) && (month === j[1])) {
+            currentStudentClass = j[2];
+            return currentStudentClass;
+        }
+    }
+};
+
+findStudentClass(collegeGradYear, collegeGradMonth);
+
+if (lifeStatus(collegeGradYear, collegeGradMonth) === "college") {
+    welcomeCollegeStudent(currentStudentClass);
+} else if (lifeStatus(collegeGradYear, collegeGradMonth) === "high school") {
+    welcomeHsStudent(currentStudentClass);
+}
