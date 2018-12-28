@@ -1,43 +1,74 @@
-/* //teacher info variables
-const teacherName = "Thomas Talks-a-lot";
-const teacherDepartment = "Communication";
-let teacherRatings = [2.1, 3.7, 4.3];
-
-//function to add value to an array
-const addTeacherRating = (array, value) => {
-    array.push(value);
-    return array;
-}
-
-let newRating;
-let newTeacherRatings;
-
-//prompts student to rate teacher, checks whether student entered a valid rating, and adds student's input rating to existing array
-while (true) {
-    newRating = parseFloat(window.prompt("Please rate your teacher with a value between 0.0 and 5.0."));
-    if ((newRating >= 0) && (newRating <= 5)) {        
-        newTeacherRatings = addTeacherRating(teacherRatings, newRating);
-        break;
+//template for teacher object
+class Teacher {
+    constructor(name, department) {
+        this.name = name;
+        this.department = department;
+        this.ratings = [];
     }
-    alert("You didn't follow directions. Shame on you. Please rate your teacher with a value between 0.0 and 5.0.");
+
+    //adds user input rating to ratings property
+    addTeacherRating(value) {
+        this.ratings.push(value);
+    }
+
+    //averages new rating with existing ratings
+    getAvgTeacherRating() {
+        const totalRating = this.ratings.reduce((accumulator, currentValue) =>
+        {
+            return accumulator + currentValue;
+        });
+        return (totalRating / this.ratings.length);
+    }
+
+    //adds space between ratings
+    getReadableRatings() {
+        return this.ratings.join(", ");
+    }    
+
+    //gives string containing teacher info
+    toString() {
+        return (`Teacher: ${this.name}\nDepartment: ${this.department}\nRatings: ${this.getReadableRatings()}\nAverage Rating: ${this.getAvgTeacherRating().toFixed(5)}`);
+    }
 }
 
-//totals ratings in array
-const totalRating = newTeacherRatings.reduce((carryOver, indexValue) => {
-    return carryOver + indexValue;
-});
+//prompts user for new rating
+function ratingPrompt(teacher) {
+    while (true) {
+        let newRating = parseFloat(window.prompt("Please rate your teacher with a value between 0.0 and 5.0."));
+        if ((newRating >= 0) && (newRating <= 5)) {
+            teacher.addTeacherRating(newRating);
+            alert(`Thanks for your review! ${teacher.name}'s average rating is now ${teacher.getAvgTeacherRating()}.`);
+            break;
+        }
+        alert("You didn't follow directions. Shame on you. Please rate your teacher with a value between 0.0 and 5.0.");
+    }
+}
 
-//averages teacher's ratings
-const teacherAvgRating = (totalRating / newTeacherRatings.length).toFixed(5);
+//prompts user for department of teacher they would like to rate
+function promptDept(teacher) {
+    return window.prompt(`Please enter ${teacher}'s department name.`);
+}
 
-//gives array with spaces between ratings
-const teacherRatingOutput = newTeacherRatings.join(", ");
+//contains all existing teacher objects
+const teacherMap = {};
 
-//alerts student to new rating average
-alert(`Thanks for your review! ${teacherName}'s average rating is now ${teacherAvgRating}.`)
+//prompts user for name of teacher they would like to rate and stores input
+const userTeacher = window.prompt("Please enter the full name of the teacher you would like to rate.");
+
+//creates new object if user input teacher does not exist
+if (!teacherMap[userTeacher]) {
+    const dept = promptDept(userTeacher);
+    teacherMap[userTeacher] = new Teacher(userTeacher, dept);    
+}
+
+//prompts user for rating of input teacher
+const teacherObj = teacherMap[userTeacher];
+ratingPrompt(teacherObj);
 
 //logs teacher info to console
-console.log(`Teacher: ${teacherName}\nDepartment: ${teacherDepartment}\nRatings: ${teacherRatingOutput}\nAverage Rating: ${teacherAvgRating}`);
+console.log(teacherObj.toString());
+
+
 
 //variables containing student info
 const studentName = "Ida Dream";
@@ -81,7 +112,7 @@ let departmentCourses;
 while (true) {
     filterInput = window.prompt("Please enter a department name to view courses.");
     departmentCourses = courseFilter(courseCatalog, filterInput);
-    if (departmentCourses && departmentCourses.length) {        
+    if (departmentCourses && departmentCourses.length) {
         break;
     }
     alert("The department you entered doesn't exist. Please enter a valid department name.");
@@ -91,16 +122,16 @@ while (true) {
 alert(`The following courses are available in the ${filterInput} department: ${departmentCourses.join(", ")}`);
 
 //logs course info to console
-console.log(`Course: ${courseName}\nDepartment: ${courseDepartment}\nInstructor: ${courseTeacher}\nSemester: ${courseSemester}`); */
+console.log(`Course: ${courseName}\nDepartment: ${courseDepartment}\nInstructor: ${courseTeacher}\nSemester: ${courseSemester}`);
 
 
-
+//prompts student for college graduation year and month; only allows for May or December graduation date
 let collegeGradYear;
 let collegeGradMonth = "";
 
 while (true) {
-    collegeGradYear = parseFloat(window.prompt("Please enter your college graduation year, between 2018 and 2026."));
-    if ((collegeGradYear >= 2018) && (collegeGradYear <= 2026)) {
+    collegeGradYear = parseFloat(window.prompt("Please enter your future college graduation year."));
+    if (collegeGradYear >= 2018) {
         while (true) {
             collegeGradMonth = window.prompt("Please enter your college graduation month. Only May or December are considered valid.");
             if ((collegeGradMonth === "May") || (collegeGradMonth === "December")) {
@@ -111,10 +142,11 @@ while (true) {
         }
         break;
     } else {
-        alert("Uh oh. The year you entered isn't valid. Please enter a college graduation year between 2018 and 2026.");
+        alert("Uh oh. The year you entered isn't valid. This site only applies to future graduates. Please enter a year that has not yet occurred.");
     }
 }
 
+//function for creating readout telling what class student is in
 const welcomeCollegeStudent = (studentClass) => {
     console.log(`Welcome ${studentClass}!`);
 }
@@ -123,6 +155,11 @@ const welcomeHsStudent = (studentClass) => {
     console.log(`You're still a ${studentClass} in high school!`);
 }
 
+const welcomeYoungStudent = (studentClass) => {
+    console.log(`Whatchyou doin' lookin' at college? Enjoy non-adulthood while it lasts.`);
+}
+
+//determines whether student is in high school or college based on graduation year and month input
 const lifeStatus = (year, month) => {
     if ((year >= 2019) && (year <= 2021)) {
         return "college";
@@ -132,9 +169,12 @@ const lifeStatus = (year, month) => {
         return "college";
     } else if ((year == 2022) && (month === "December")) {
         return "high school";
+    } else if (year >= 2027) {
+        return "too young";
     }
 }
 
+//array matching graduation month and year with current class
 const studentClassDictionary = [
     [2018, "December", "senior"],
     [2019, "May", "senior"],
@@ -154,6 +194,7 @@ const studentClassDictionary = [
     [2026, "May", "freshman"]
 ];
 
+//uses student input to determine their current class
 let currentStudentClass = "";
 function findStudentClass(year, month) {
     for (let i = 0; i < studentClassDictionary.length; i++) {
@@ -167,8 +208,11 @@ function findStudentClass(year, month) {
 
 findStudentClass(collegeGradYear, collegeGradMonth);
 
+//outputs student class based on graduation month and year
 if (lifeStatus(collegeGradYear, collegeGradMonth) === "college") {
     welcomeCollegeStudent(currentStudentClass);
 } else if (lifeStatus(collegeGradYear, collegeGradMonth) === "high school") {
     welcomeHsStudent(currentStudentClass);
+} else if (lifeStatus(collegeGradYear, collegeGradMonth) === "too young") {
+    welcomeYoungStudent(currentStudentClass);
 }
