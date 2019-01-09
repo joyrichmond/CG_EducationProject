@@ -94,11 +94,13 @@ console.log(`Student Name: ${studentName}\nMajor: ${studentMajor}\nEmail: ${stud
 
 
 //template for course object
-function Course(name, department, teacher, semester) {
-    this.name = name;
-    this.department = department;
-    this.teacher = teacher;
-    this.semester = semester;
+class Course {
+    constructor(name, department, teacher, semester) {
+        this.name = name;
+        this.department = department;
+        this.teacher = teacher;
+        this.semester = semester;
+    }
 }
 
 //contains all course objects
