@@ -85,6 +85,54 @@ console.log(teacherObj.toString());
 
 
 
+//template for course object
+class Course {
+    constructor(name, department, teacher, semester) {
+        this.name = name;
+        this.department = department;
+        this.teacher = teacher;
+        this.semester = semester;
+    }
+}
+
+//contains all course objects
+let courseCatalog = {
+    "Interpersonal Communication": new Course("Interpersonal Communication", "Communication", teacherMap.teacherIdaDream, "Fall 2019"),
+    "Survival 101": new Course("Survival 101", "Random Electives", teacherMap.teacherJackBauer, "Fall 2019"),
+    "Calculus": new Course("Calculus", "Mathematics", teacherMap.teacherCalCulator, "Fall 2019"),
+    "Business 101": new Course("Business 101", "Business", teacherMap.teacherConnorElonOsko, "Fall 2019"),
+    "Speech 101": new Course("Speech 101", "Communication", teacherMap.teacherIdaDream, "Spring 2020"),
+    "Dothraki": new Course("Dothraki", "Random Electives", teacherMap.teacherDaenerysTargaryen, "Spring 2020"),
+    "Algebra I": new Course("Algebra I", "Mathematics", teacherMap.teacherCalCulator, "Spring 2020"),
+    "Business Finance": new Course("Business Finance", "Business", teacherMap.teacherConnorElonOsko, "Spring 2020")
+};
+
+//filters courses by department input by user
+const filterCoursesByDepartment = (source, dept) => {
+   let courses = Object.values(source).filter(x => x.department == dept);
+   return courses.map(x => x.name);
+}
+
+//checks whether given department exists, saves filtered courses
+let filterInput;
+let departmentCourses;
+
+while (true) {
+    filterInput = window.prompt("Please enter a department name to view courses.");
+    departmentCourses = filterCoursesByDepartment(courseCatalog, filterInput);
+    if (departmentCourses && departmentCourses.length) {
+        console.log(`Courses in the ${filterInput} department: ${departmentCourses.join(", ")}`);
+        break;
+    }
+    alert("The department you entered doesn't exist. Please enter a valid department name.");
+}
+
+//tells student courses available in input department
+alert(`The following courses are available in the ${filterInput} department: ${departmentCourses.join(", ")}`);
+
+
+
+
 //template for student object
 class Student {
     constructor(name, major, email, GPA) {
@@ -111,13 +159,18 @@ class Student {
         return (`Student Name: ${this.name}\nMajor: ${this.major}\nEmail: ${this.email}\nGPA: ${this.GPA}\nCourses: ${this.courses.join(", ")}`);
     }
 }
+
 //contains all existing students
 let studentDirectory = {
-    "Justin Time": new Student("Justin Time", "Communication", "talkinfunny@gmail.com", 3.4)
+    "Justin Time": new Student("Justin Time", "Business Management", "getmovin@gmail.com", 2.4)
 }
 
 //asks user for student name to view their information
 const studentNameInput = prompt("Please enter a student's name to view information.");
+
+studentDirectory["Loki Nagood"] = new Student("Loki Nagood", "Business", "mischiefmanaged@yahoo.com", 3.2);
+studentDirectory["Rose High"] = new Student("Rose High", "Pre-med", "goinplaces@gmail.com", 4.0);
+studentDirectory["Deb Ater"] = new Student("Deb Ater", "Communication", "illbeatyou@hotmail.com", 3.7);
 
 //logs student info to console
 if (Object.values(studentDirectory).some(x => x.name == studentNameInput)) {
@@ -126,56 +179,24 @@ if (Object.values(studentDirectory).some(x => x.name == studentNameInput)) {
     alert("Student does not exist. Please contact the admissions department to enroll or add student to the system..");
 }
 
-
-
-
-//template for course object
-class Course {
-    constructor(name, department, teacher, semester) {
-        this.name = name;
-        this.department = department;
-        this.teacher = teacher;
-        this.semester = semester;
-    }
+//logs added courses to console and student's new course list
+function logAddCourse(course, student) {
+    studentDirectory[student].addCourse(course);
+    console.log(`Adding Course: ${course}\nTo Student's Courses: ${student}\nNow they are taking....\n${studentDirectory[student].courses.join(", ")}`);
 }
 
-//contains all course objects
-let courseCatalog = {
-    "Interpersonal Communication": new Course("Interpersonal Communication", "Communication", teacherMap.teacherIdaDream, "Fall 2019"),
-    "Survival 101": new Course("Survival 101", "Random Electives", teacherMap.teacherJackBauer, "Fall 2019"),
-    "Calculus": new Course("Calculus", "Mathematics", teacherMap.teacherCalCulator, "Fall 2019"),
-    "Business 101": new Course("Business 101", "Business", teacherMap.teacherConnorElonOsko, "Fall 2019"),
-    "Speech 101": new Course("Speech 101", "Communication", teacherMap.teacherIdaDream, "Spring 2020"),
-    "Dothraki": new Course("Dothraki", "Random Electives", teacherMap.teacherDaenerysTargaryen, "Spring 2020"),
-    "Algebra I": new Course("Algebra I", "Mathematics", teacherMap.teacherCalCulator, "Spring 2020"),
-    "Business Finance": new Course("Business Finance", "Business", teacherMap.teacherConnorElonOsko, "Spring 2020")
-};
+//adds courses to Justin Time's course list
+logAddCourse("Business 101", "Justin Time");
+logAddCourse("Business Finance", "Justin Time");
+logAddCourse("Dothraki", "Justin Time");
 
+//removes course from Justin Time's course list
+studentDirectory["Justin Time"].dropCourse("Business Finance");
+console.log(studentDirectory["Justin Time"].toString());
 
-
-
-//filters courses by department input by user
-const filterCoursesByDepartment = (source, dept) => {
-   let courses = Object.values(source).filter(x => x.department == dept);
-   return courses.map(x => x.name);
-}
-
-//checks whether given department exists, saves filtered courses
-let filterInput;
-let departmentCourses;
-
-while (true) {
-    filterInput = window.prompt("Please enter a department name to view courses.");
-    departmentCourses = filterCoursesByDepartment(courseCatalog, filterInput);
-    if (departmentCourses && departmentCourses.length) {
-        console.log(`Courses in the ${filterInput} department: ${departmentCourses.join(", ")}`);
-        break;
-    }
-    alert("The department you entered doesn't exist. Please enter a valid department name.");
-}
-
-//tells student courses available in input department
-alert(`The following courses are available in the ${filterInput} department: ${departmentCourses.join(", ")}`);
+//changes Loki Nagood's major
+studentDirectory["Loki Nagood"].changeMajor("Emperor of the Universe");
+console.log(studentDirectory["Loki Nagood"].toString());
 
 
 
