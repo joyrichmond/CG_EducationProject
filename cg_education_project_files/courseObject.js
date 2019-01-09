@@ -1,50 +1,50 @@
-//template for teacher object
-class Teacher {
-    constructor(name, department) {
+class Student {
+    constructor(name, major, email, GPA) {
         this.name = name;
-        this.department = department;
-        this.ratings = [];
-        }
-
-    //adds user input rating to ratings property
-    addTeacherRating(value) {
-        this.ratings.push(value);
+        this.major = major;
+        this.email = email;
+        this.GPA = GPA;
+        this.courses = [];
+    }
+        
+    addCourse(value) {
+        this.courses.push(value);
     }
 
-    //averages new rating with existing ratings
-    getAvgTeacherRating() {
-        const totalRating = this.ratings.reduce((accumulator, currentValue) =>
-        {
-            return accumulator + currentValue;
-        });
-        return (totalRating / this.ratings.length);
+    dropCourse(value) {
+        this.courses.splice(this.courses.indexOf(value), 1);
     }
 
-    //adds space between ratings
-    getReadableRatings() {
-        return this.ratings.join(", ");
-    }    
+    changeMajor(value) {
+        this.major = value;
+    }
 
-    //gives string containing teacher info
     toString() {
-        return (`Teacher: ${this.name}\nDepartment: ${this.department}\nRatings: ${this.getReadableRatings()}\nAverage Rating: ${this.getAvgTeacherRating().toFixed(5)}`);
+        return (`Student Name: ${this.name}\nMajor: ${this.major}\nEmail: ${this.email}\nGPA: ${this.GPA}\nCourses: ${this.courses.join(", ")}`);
     }
 }
 
-//contains all existing teacher objects
-let teacherMap = {
-    "Ida Dream": new Teacher("Ida Dream", "Communication"),
-    teacherJackBauer: new Teacher("Jack Bauer", "Random Electives"),
-    teacherCalCulator: new Teacher("Cal Culator", "Mathematics"),
-    teacherDaenerysTargaryen: new Teacher("Daenerys Targaryen", "Random Electives"),
-    teacherConnorElonOsko: new Teacher("Connor Elon Osko", "Business")
-};
+let studentDirectory = {
+    "Justin Time": new Student("Justin Time", "Communication", "talkinfunny@gmail.com", 3.4)
+}
 
-teacherMap.teacherIdaDream.ratings.push(4.4, 3.7, 2.8);
-teacherMap.teacherJackBauer.ratings.push(5.0, 5.0, 4.7);
-teacherMap.teacherCalCulator.ratings.push(2.1, 3.8, 4.8);
-teacherMap.teacherDaenerysTargaryen.ratings.push(1.7, 4.8, 4.7);
-teacherMap.teacherConnorElonOsko.ratings.push(3.2, 3.9, 4.1);
+const studentNameInput = prompt("Please enter a student's name to view information.");
 
-console.log(teacherMap.teacherIdaDream);
+if (Object.values(studentDirectory).some(x => x.name == studentNameInput)) {
+    console.log(studentDirectory[studentNameInput].toString());
+} else {
+    alert("This student does not exist. Please follow the prompts to create new student.");
+    const newStudentMajor = prompt("Please enter student's major.");
+    const newStudentEmail = prompt("Please enter student's email.");
+    const newStudentGPA = prompt("Please enter student's GPA, or enter 0 if student does not yet have a GPA.");
+    studentDirectory[studentNameInput] = new Student(studentNameInput, newStudentMajor, newStudentEmail, newStudentGPA);
+    console.log (studentDirectory[studentNameInput].toString());
+}
 
+studentDirectory["Justin Time"].addCourse("Dothraki");
+studentDirectory["Justin Time"].addCourse("Business 101");
+studentDirectory["Justin Time"].addCourse("Survival 101");
+console.log(studentDirectory["Justin Time"].toString());
+
+studentDirectory["Justin Time"].dropCourse("Survival 101");
+console.log(studentDirectory["Justin Time"].toString());
