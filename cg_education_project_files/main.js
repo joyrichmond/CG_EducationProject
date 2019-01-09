@@ -13,8 +13,7 @@ class Teacher {
 
     //averages new rating with existing ratings
     getAvgTeacherRating() {
-        const totalRating = this.ratings.reduce((accumulator, currentValue) =>
-        {
+        const totalRating = this.ratings.reduce((accumulator, currentValue) => {
             return accumulator + currentValue;
         });
         return (totalRating / this.ratings.length);
@@ -23,7 +22,7 @@ class Teacher {
     //adds space between ratings
     getReadableRatings() {
         return this.ratings.join(", ");
-    }    
+    }
 
     //gives string containing teacher info
     toString() {
@@ -31,44 +30,57 @@ class Teacher {
     }
 }
 
-//prompts user for new rating
-function ratingPrompt(teacher) {
-    while (true) {
-        let newRating = parseFloat(window.prompt("Please rate your teacher with a value between 0.0 and 5.0."));
-        if ((newRating >= 0) && (newRating <= 5)) {
-            teacher.addTeacherRating(newRating);
-            alert(`Thanks for your review! ${teacher.name}'s average rating is now ${teacher.getAvgTeacherRating()}.`);
-            break;
-        }
-        alert("You didn't follow directions. Shame on you. Please rate your teacher with a value between 0.0 and 5.0.");
-    }
-}
+//contains all existing teacher objects
+let teacherMap = {
+    "Ida Dream": new Teacher("Ida Dream", "Communication"),
+    "Jack Bauer": new Teacher("Jack Bauer", "Random Electives"),
+    "Cal Culator": new Teacher("Cal Culator", "Mathematics"),
+    "Daenerys Targaryen": new Teacher("Daenerys Targaryen", "Random Electives"),
+    "Connor Elon Osko": new Teacher("Connor Elon Osko", "Business")
+};
+
+teacherMap["Ida Dream"].ratings.push(4.4, 3.7, 2.8);
+teacherMap["Jack Bauer"].ratings.push(5.0, 5.0, 4.7);
+teacherMap["Cal Culator"].ratings.push(2.1, 3.8, 4.8);
+teacherMap["Daenerys Targaryen"].ratings.push(1.7, 4.8, 4.7);
+teacherMap["Connor Elon Osko"].ratings.push(3.2, 3.9, 4.1);
+
+//prompts user for name of teacher they would like to rate and stores input
+const userTeacher = window.prompt("Please enter the full name of the teacher you would like to rate.");
 
 //prompts user for department of teacher they would like to rate
 function promptDept(teacher) {
     return window.prompt(`Please enter ${teacher}'s department name.`);
 }
 
-//contains all existing teacher objects
-const teacherMap = {};
-
-//prompts user for name of teacher they would like to rate and stores input
-const userTeacher = window.prompt("Please enter the full name of the teacher you would like to rate.");
-
 //creates new object if user input teacher does not exist
-if (!teacherMap[userTeacher]) {
+if (Object.values(teacherMap).some(x => x.name == userTeacher)) {
+    ratingPrompt(userTeacher);
+} else {
     const dept = promptDept(userTeacher);
-    teacherMap[userTeacher] = new Teacher(userTeacher, dept);    
+    teacherMap[userTeacher] = new Teacher(userTeacher, dept);
+    //teacherMap.assign(new Teacher(userTeacher, dept));
+    ratingPrompt(userTeacher);
+}
+
+//prompts user for new rating
+function ratingPrompt() {
+    while (true) {
+        let newRating = parseFloat(window.prompt("Please rate your teacher with a value between 0.0 and 5.0."));
+        if ((newRating >= 0) && (newRating <= 5)) {
+            teacherMap[userTeacher].addTeacherRating(newRating);
+            alert(`Thanks for your review! ${teacherMap[userTeacher].name}'s average rating is now ${teacherMap[userTeacher].getAvgTeacherRating().toFixed(5)}.`);
+            break;
+        }
+        alert("You didn't follow directions. Shame on you. Please rate your teacher with a value between 0.0 and 5.0.");
+    }
 }
 
 //prompts user for rating of input teacher
 const teacherObj = teacherMap[userTeacher];
-ratingPrompt(teacherObj);
 
 //logs teacher info to console
 console.log(teacherObj.toString());
-
-
 
 //variables containing student info
 const studentName = "Justin Time";
@@ -91,23 +103,23 @@ function Course(name, department, teacher, semester) {
 
 //contains all course objects
 let courseCatalog = [
-new Course("Interpersonal Communication", "Communication", "Ida Dream", "Fall 2019"),
-new Course("Survival 101", "Random Electives", "Jack Bauer", "Fall 2019"),
-new Course("Calculus", "Mathematics", "Cal Culator", "Fall 2019"),
-new Course("Business 101", "Business", "Connor Elon Osko", "Fall 2019"),
-new Course("Speech 101", "Communication", "Ida Dream", "Spring 2020"),
-new Course("Dothraki", "Random Electives", "Daenerys Targaryen", "Spring 2020"),
-new Course("Algebra I", "Mathematics", "Cal Culator", "Spring 2020"),
-new Course("Business Finance", "Business", "Connor Elon Osko", "Spring 2020")
+    new Course("Interpersonal Communication", "Communication", teacherMap.teacherIdaDream, "Fall 2019"),
+    new Course("Survival 101", "Random Electives", teacherMap.teacherJackBauer, "Fall 2019"),
+    new Course("Calculus", "Mathematics", teacherMap.teacherCalCulator, "Fall 2019"),
+    new Course("Business 101", "Business", teacherMap.teacherConnorElonOsko, "Fall 2019"),
+    new Course("Speech 101", "Communication", teacherMap.teacherIdaDream, "Spring 2020"),
+    new Course("Dothraki", "Random Electives", teacherMap.teacherDaenerysTargaryen, "Spring 2020"),
+    new Course("Algebra I", "Mathematics", teacherMap.teacherCalCulator, "Spring 2020"),
+    new Course("Business Finance", "Business", teacherMap.teacherConnorElonOsko, "Spring 2020")
 ];
 
 //filters courses by department input by user
 const courseFilter = (array, userDepartment) => {
-let filteredCourses = [];
-let newArray = array.filter(x => x.department === userDepartment);
-newArray.forEach(x => filteredCourses.push(x.name));
-newArray.forEach(x => console.log(x));
-return filteredCourses;
+    let filteredCourses = [];
+    let newArray = array.filter(x => x.department === userDepartment);
+    newArray.forEach(x => filteredCourses.push(x.name));
+    newArray.forEach(x => console.log(x));
+    return filteredCourses;
 }
 
 //checks whether given department exists, saves filtered courses
@@ -115,12 +127,12 @@ let filterInput;
 let departmentCourses;
 
 while (true) {
-filterInput = window.prompt("Please enter a department name to view courses.");
-departmentCourses = courseFilter(courseCatalog, filterInput);
-if (departmentCourses && departmentCourses.length) {
-    break;
-}
-alert("The department you entered doesn't exist. Please enter a valid department name.");
+    filterInput = window.prompt("Please enter a department name to view courses.");
+    departmentCourses = courseFilter(courseCatalog, filterInput);
+    if (departmentCourses && departmentCourses.length) {
+        break;
+    }
+    alert("The department you entered doesn't exist. Please enter a valid department name.");
 }
 
 //tells student courses available in input department

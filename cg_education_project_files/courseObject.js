@@ -1,44 +1,50 @@
-//template for course object
-function Course(name, department, teacher, semester) {
+//template for teacher object
+class Teacher {
+    constructor(name, department) {
         this.name = name;
         this.department = department;
-        this.teacher = teacher;
-        this.semester = semester;
+        this.ratings = [];
+        }
+
+    //adds user input rating to ratings property
+    addTeacherRating(value) {
+        this.ratings.push(value);
     }
 
-//contains all course objects
-let courseCatalog = [
-    new Course("Interpersonal Communication", "Communication", "Ida Dream", "Fall 2019"),
-    new Course("Survival 101", "Random Electives", "Jack Bauer", "Fall 2019"),
-    new Course("Calculus", "Mathematics", "Cal Culator", "Fall 2019"),
-    new Course("Business 101", "Business", "Connor Elon Osko", "Fall 2019"),
-    new Course("Speech 101", "Communication", "Ida Dream", "Spring 2020"),
-    new Course("Dothraki", "Random Electives", "Daenerys Targaryen", "Spring 2020"),
-    new Course("Algebra I", "Mathematics", "Cal Culator", "Spring 2020"),
-    new Course("Business Finance", "Business", "Connor Elon Osko", "Spring 2020")
-];
-
-//filters courses by department input by user
-const courseFilter = (array, userDepartment) => {
-    let filteredCourses = [];
-    let newArray = array.filter(x => x.department === userDepartment);
-    newArray.forEach(x => filteredCourses.push(x.name));
-    newArray.forEach(x => console.log(x));
-    return filteredCourses;
-}
-
-//checks whether given department exists, saves filtered courses
-let filterInput;
-let departmentCourses;
-
-while (true) {
-    filterInput = window.prompt("Please enter a department name to view courses.");
-    departmentCourses = courseFilter(courseCatalog, filterInput);
-    if (departmentCourses && departmentCourses.length) {
-        break;
+    //averages new rating with existing ratings
+    getAvgTeacherRating() {
+        const totalRating = this.ratings.reduce((accumulator, currentValue) =>
+        {
+            return accumulator + currentValue;
+        });
+        return (totalRating / this.ratings.length);
     }
-    alert("The department you entered doesn't exist. Please enter a valid department name.");
+
+    //adds space between ratings
+    getReadableRatings() {
+        return this.ratings.join(", ");
+    }    
+
+    //gives string containing teacher info
+    toString() {
+        return (`Teacher: ${this.name}\nDepartment: ${this.department}\nRatings: ${this.getReadableRatings()}\nAverage Rating: ${this.getAvgTeacherRating().toFixed(5)}`);
+    }
 }
 
-//tells student courses available in input department
-alert(`The following courses are available in the ${filterInput} department: ${departmentCourses.join(", ")}`);
+//contains all existing teacher objects
+let teacherMap = {
+    "Ida Dream": new Teacher("Ida Dream", "Communication"),
+    teacherJackBauer: new Teacher("Jack Bauer", "Random Electives"),
+    teacherCalCulator: new Teacher("Cal Culator", "Mathematics"),
+    teacherDaenerysTargaryen: new Teacher("Daenerys Targaryen", "Random Electives"),
+    teacherConnorElonOsko: new Teacher("Connor Elon Osko", "Business")
+};
+
+teacherMap.teacherIdaDream.ratings.push(4.4, 3.7, 2.8);
+teacherMap.teacherJackBauer.ratings.push(5.0, 5.0, 4.7);
+teacherMap.teacherCalCulator.ratings.push(2.1, 3.8, 4.8);
+teacherMap.teacherDaenerysTargaryen.ratings.push(1.7, 4.8, 4.7);
+teacherMap.teacherConnorElonOsko.ratings.push(3.2, 3.9, 4.1);
+
+console.log(teacherMap.teacherIdaDream);
+
